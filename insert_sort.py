@@ -1,4 +1,6 @@
 #冒泡排序
+#平均情况O(n²) 最好情况O(n) 最坏情况O(n²) 辅助空间(1) 稳定性：稳定
+#
 def bubble_sort(alist):
     lenth = len(alist)
     #执行多少次循环
@@ -19,7 +21,9 @@ def bubble_sort2(alist):
                 count+=1
         if count==0:
             return
+
 #选择排序  不稳定
+#平均情况O(n²) 最好情况O(n²) 最坏情况O(n²) 辅助空间(1) 稳定性：不稳定
 def select_sort(alist):
     lenth=len(alist)
     for i in range(0,lenth-1):
@@ -27,6 +31,7 @@ def select_sort(alist):
             if alist[i]>alist[j]:
                 alist[i],alist[j]=alist[j],alist[i]
 #插入排序 -while写法
+#平均情况O(n²) 最好情况O(n) 最坏情况O(n²) 辅助空间(1) 稳定性：稳定
 def insert_sort(alist):
     lenth=len(alist)
     for i in range(1,lenth):
@@ -47,8 +52,23 @@ def insert2_sort(alist):
                 alist[j-1],alist[j]=alist[j],alist[j-1]
 
 #希尔排序
+#平均情况O(nlogn-n²) 最好情况O(n^1.3) 最坏情况O(n²) 辅助空间(1) 稳定性：不稳定
+def shell_sort(alist):
+    n=len(alist)
+    c=n//2
+    while c>0:
+        for i in range(c,n):
+            while i>0:
+                if alist[i]<alist[i-c]:
+                    alist[i],alist[i-c]=alist[i-c],alist[i]
+                    i-=c
+                else:
+                    break
+        c=c//2
+
 
 #快速排序 时间复杂度最优nlogn  最差n*n
+#平均情况O(nlogn) 最好情况O(nlogn) 最坏情况O(n²) 辅助空间(nlogn-n) 稳定性：不稳定
 def quick_sort(alist,start,end):
     if start >= end:
         return
@@ -66,6 +86,28 @@ def quick_sort(alist,start,end):
     quick_sort(alist,start,low-1)
     quick_sort(alist,low+1,end)
 
+#归并排序 最优最差，时间复杂度都为nlogn，空间额外开销
+#平均情况O(nlogn) 最好情况O(nlogn) 最坏情况O(nlogn) 辅助空间(n) 稳定性：稳定
+def merge_sort(alist):
+    lenth=len(alist)
+    if lenth==1:
+        return alist
+    c=lenth//2
+    left_lis=merge_sort(alist[:c])
+    right_lis=merge_sort(alist[c:])
+    left_pos,right_pos=0,0
+    result=[]
+    while left_pos<len(left_lis) and right_pos<len(right_lis):
+        if left_lis[left_pos]<=right_lis[right_pos]:
+            result.append(left_lis[left_pos])
+            left_pos+=1
+        else:
+            result.append(right_lis[right_pos])
+            right_pos+=1
+    result+=left_lis[left_pos:]
+    result+=right_lis[right_pos:]
+    return result
+
 
 if __name__=='__main__':
     list=[45,26,93,17,56,13,85]
@@ -75,6 +117,8 @@ if __name__=='__main__':
     #select_sort(list)#选择排序
     # insert_sort(list)#插入排序
     # insert2_sort(list)#插入排序 双for写法
-    quick_sort(list,0,len(list)-1)
+    # quick_sort(list,0,len(list)-1)#快排
+    # shell_sort(list)#希尔排序
+    list=merge_sort(list)#归并排序
     print(list)
 
