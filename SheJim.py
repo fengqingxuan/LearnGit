@@ -161,6 +161,29 @@ def make_phone(factory):
     cpu=factory.create_cpu()
     os=factory.create_os()
     return Phone(shell,cpu,os)
+#迭代器模式
+class Interator(metaclass=ABCMeta):
+    def hasNext(self):
+        pass
+    def Next(self):
+        pass
+class Interatormodel(Interator):
+    def __init__(self,list):
+        self.alist=list
+    def hasNext(self):
+        return self.alist!=''
+    def Next(self):
+        return self.alist.pop(0)
+class Covent(metaclass=ABCMeta):
+    def interator(self):
+        pass
+class CoventModel(Covent):
+    def __init__(self,alist):
+        self.alist=alist
+    def interator(self):
+        return Interatormodel(self.alist)
+
+
 if __name__=='__main__':
     # a=Myclass('a')
     # print(a)
@@ -182,3 +205,8 @@ if __name__=='__main__':
     #抽象工厂模式
     p1=make_phone(SmallFactory())
     p1.show_info()
+    #可迭代模式
+    diedmol=CoventModel(['a',2,'o','8'])
+    i=diedmol.interator()
+    while i.hasNext():
+        print(i.Next())
